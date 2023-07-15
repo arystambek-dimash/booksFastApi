@@ -1,4 +1,3 @@
-import os
 import uuid
 
 from fastapi import Cookie, FastAPI, Form, Request, Response, templating, UploadFile, File
@@ -37,6 +36,12 @@ def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+@app.get("/base")
+def base(request: Request, token: str = Cookie()):
+    user = users_repository.is_authenticated(decode_jwt(token))
+    return templates.TemplateResponse("base.html", {"request": request, "user": user})
+
+
 @app.get("/signup")
 def get_signup(request: Request):
     return templates.TemplateResponse("authorization/signup.html", {"request": request})
@@ -48,12 +53,12 @@ def post_signup(request: Request,
                 name: str = Form(...),
                 lastname: str = Form(...),
                 password: str = Form(...)):
-    user = User(email=email, full_name=(name + ' ' + lastname), password=password, profile_photo="")
+    user = User(email=email, name=name, lastname=lastname, password=password, profile_photo="")
     if users_repository.email_exists(user.email):
         error_message = "Email already exists."
         return templates.TemplateResponse("authorization/signup.html",
                                           {"request": request, "error_message": error_message})
-    if not users_repository.password_is_valid(user.password):
+    if len(password) < 8:
         error_message = "len(password)>=8"
         return templates.TemplateResponse("authorization/signup.html",
                                           {"request": request, "error_message": error_message})
@@ -62,14 +67,14 @@ def post_signup(request: Request,
 
 
 @app.get("/login")
-def get_signup(request: Request):
+def get_login(request: Request):
     return templates.TemplateResponse("authorization/login.html", {"request": request})
 
 
 @app.post("/login")
-def post_signup(request: Request, response: Response,
-                email: str = Form(...),
-                password: str = Form(...)):
+def post_login(request: Request,
+               email: str = Form(...),
+               password: str = Form(...)):
     user = users_repository.get_user_by_email(email)
     if user is None or user.password != password:
         error_message = "No user with such email or incorrect password"
@@ -82,14 +87,14 @@ def post_signup(request: Request, response: Response,
 
 
 @app.get("/profile")
-def get_signup(request: Request, token: str = Cookie()):
+def get_profile(request: Request, token: str = Cookie()):
     user_id = decode_jwt(token)
     user = users_repository.get_user_by_id(int(user_id))
     return templates.TemplateResponse("authorization/profile.html", {"request": request, "user": user})
 
 
 @app.get("/profile/edit")
-def get_signup(request: Request, token=Cookie()):
+def get_edit(request: Request, token=Cookie()):
     user = users_repository.get_user_by_id(decode_jwt(token))
     return templates.TemplateResponse("authorization/edit.html", {"request": request, "user": user})
 
@@ -102,7 +107,7 @@ async def update_profile(request: Request,
                          password: str = Form(...),
                          token: str = Cookie()) -> Response:
     user_id = decode_jwt(token)
-    user = User(email='', full_name=f"{name} {lastname}", password=password, profile_photo='')
+    user = User(email='', name=name, lastname=lastname, password=password, profile_photo='')
     if profile_photo is not None:
         profile_photo.filename = f"{uuid.uuid4()}.jpg"
         contents = await profile_photo.read()
@@ -117,3 +122,7 @@ async def update_profile(request: Request,
 
     users_repository.update_profile(user_id, user)
     return RedirectResponse("/profile", status_code=303)
+
+@app.get("/flowers")
+def get_flowers(request:Request):
+    return templates.TemplateResponse("flowers/flowers.html",{"request":request})

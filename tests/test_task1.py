@@ -15,7 +15,7 @@ def test_post_signup_invalid():
 
 
 def test_post_signup_valid():
-    data = {"email": "test@test.com", "full_name": "Aibek Azamatov", "password": "123"}
+    data = {"email": "test@test.com", "name": "Aibek","lastname":"Azamatov", "password": "12345678"}
     response = requests.post(
         "http://localhost:8000/signup", data=data, allow_redirects=False
     )

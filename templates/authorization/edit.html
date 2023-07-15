@@ -54,6 +54,8 @@
 
 <div style="margin-top: 100px">
     <div id="profile">
+        <h2>Update</h2>
+
         <form action="/profile/edit" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="photo">Profile Photo:</label>
@@ -61,15 +63,17 @@
             </div>
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required placeholder="Name">
+                <input type="text" id="name" name="name" required placeholder="Name" value="{{user.name}}">
             </div>
             <div class="form-group">
                 <label for="lastname">Lastname:</label>
-                <input type="text" id="lastname" name="lastname" required placeholder="Lastname">
+                <input type="text" id="lastname" name="lastname" required placeholder="Lastname"
+                       value="{{user.lastname}}">
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required placeholder="Password" value="{{user.password}}">
+                <input type="password" id="password" name="password" required placeholder="Password"
+                       value="{{user.password}}">
             </div>
             <div class="form-group">
                 <button type="submit" class="edit-profile-btn">Save Changes</button>

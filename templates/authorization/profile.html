@@ -52,9 +52,10 @@
 </style>
 <div style="margin-top: 100px">
     <div id="profile">
-        <img class="profile-image" {% if user.profile_photo != "" %}src="../../static/{{ user.profile_photo }}" {% else %}
+        <img class="profile-image" {% if user.profile_photo !="" %}src="../../static/{{ user.profile_photo }}" {% else
+             %}
              src="../../static/flower.png" {% endif %} alt="Profile Image">
-        <h6>Full name: {{user.full_name}}</h6>
+        <h6>Full name: {{user.name}} {{user.lastname}}</h6>
         <h6>Email:{{user.email}}</h6>
         <a class="edit-profile-btn" href="/profile/edit">Edit Profile</a>
 

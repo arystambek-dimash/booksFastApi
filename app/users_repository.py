@@ -4,7 +4,8 @@ from attrs import define
 @define
 class User:
     email: str
-    full_name: str
+    name: str
+    lastname:str
     password: str
     profile_photo: str
     id: int = 0
@@ -25,13 +26,6 @@ class UsersRepository:
             if u.email == email:
                 return True
         return False
-
-    @staticmethod
-    def password_is_valid(password):
-        if len(password) < 8:
-            return False
-        return True
-
     def get_user_by_email(self, email) -> User:
         for user in self.users:
             if user.email == email:
@@ -44,14 +38,6 @@ class UsersRepository:
                 return user
         return None
 
-    def update_password(self, email, password):
-        user = self.get_user_by_email(email)
-        if user:
-            user.password = password
-            return True
-        else:
-            return False
-
     def update_profile(self,user_id,user):
         for i,u in enumerate(self.users):
             if u.id == user_id:
@@ -59,5 +45,10 @@ class UsersRepository:
                 user.email = u.email
                 self.users[i] = user
                 break
+    def is_authenticated(self, user_id):
+        for u in self.users:
+            if u.id == user_id:
+                return True
+        return False
 
 
