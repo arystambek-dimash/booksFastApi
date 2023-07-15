@@ -1,12 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Гулдер.kz</title>
-</head>
-<body>
-    <a href="/login">Войти</a><br>
-    <a href="/signup">Регистрация</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Гулдер.kz{% endblock %}
+
+{% block content %}
+<style>
+    .font {
+        padding-top: 50px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    p {
+        padding-top: 50px;
+        padding-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 50px;
+    }
+
+    .authorization {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    .authorization .link {
+        margin: 0 10px;
+        padding: 10px 20px;
+        background-color: #eaeaea;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .authorization .link:hover {
+        background-color: #ccc;
+    }
+</style>
+<div class="font">
+    <p>We will help you choose the most fashionable bouquets</p>
+    <h1>Buy and Delight Your</h1>
+    <h1>Loved Ones</h1>
+</div>
+<div class="authorization">
+    <a class="link" href="/login">Login</a>
+    <a class="link" href="/signup">Signup</a>
+</div>
+<div class="beautiful-fon" style="margin-top:200px;display: flex; justify-content: center; flex-direction: column">
+    <img src="../static/flower.png" style="width: 200px; position: absolute;margin-left: 525px;padding-top: 100px">
+    <div style="display: flex; justify-content: center;">
+        <img src="../static/grass.png" style="width: 350px; position: absolute;margin-right: 300px; -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);">
+        <img src="../static/grass.png" style="width: 350px; position: absolute;margin-left: 250px">
+    </div>
+</div>
+{% endblock %}
