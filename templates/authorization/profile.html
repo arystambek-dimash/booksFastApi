@@ -3,54 +3,61 @@
 
 {% block content%}
 <style>
-    .card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        max-width: 300px;
-        margin: auto;
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    #profile {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 0 auto;
         text-align: center;
+
     }
 
-    .title {
-        color: grey;
-        font-size: 18px;
+    h1 {
+        color: #333333;
+        margin-top: 0;
     }
 
-    button {
-        border: none;
-        outline: 0;
-        display: inline-block;
-        padding: 8px;
+    p {
+        color: #666666;
+    }
+
+    .edit-profile-btn {
+        background-color: #4CAF50;
         color: white;
-        background-color: #000;
+        border: none;
+        padding: 10px 20px;
         text-align: center;
-        cursor: pointer;
-        width: 100%;
-        font-size: 18px;
-    }
-
-    a {
         text-decoration: none;
-        font-size: 22px;
-        color: black;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 10px;
+        margin-top: 20px;
+        cursor: pointer;
     }
 
-    button:hover, a:hover {
-        opacity: 0.7;
+    .profile-image {
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        margin: 20px auto;
     }
+
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div style="margin-top: 100px">
+    <div id="profile">
+        <img class="profile-image" {% if user.profile_photo != "" %}src="../../static/{{ user.profile_photo }}" {% else %}
+             src="../../static/flower.png" {% endif %} alt="Profile Image">
+        <h6>Full name: {{user.full_name}}</h6>
+        <h6>Email:{{user.email}}</h6>
+        <a class="edit-profile-btn" href="/profile/edit">Edit Profile</a>
 
-<div class="card">
-    <img src="img.jpg" alt="John" style="width:100%">
-    <h1>John Doe</h1>
-    <p class="title">CEO & Founder, Example</p>
-    <p>Harvard University</p>
-    <a href="#"><i class="fa fa-dribbble"></i></a>
-    <a href="#"><i class="fa fa-twitter"></i></a>
-    <a href="#"><i class="fa fa-linkedin"></i></a>
-    <a href="#"><i class="fa fa-facebook"></i></a>
-    <p>
-        <button>Contact</button>
-    </p>
+    </div>
 </div>
 {%endblock%}

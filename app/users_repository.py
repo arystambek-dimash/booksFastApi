@@ -52,5 +52,12 @@ class UsersRepository:
         else:
             return False
 
-    def update_profile(self):
-        pass
+    def update_profile(self,user_id,user):
+        for i,u in enumerate(self.users):
+            if u.id == user_id:
+                user.id = u.id
+                user.email = u.email
+                self.users[i] = user
+                break
+
+
