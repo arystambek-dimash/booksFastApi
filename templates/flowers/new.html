@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Add Flowers{%endblock%}
+
+{% block content %}
+<section style="margin-top: 100px">
+    <form action="/flowers/" method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" id="title">
+        </div>
+        <div class="mb-3">
+            <label for="count" class="form-label">Count</label>
+            <input type="text" name="count" class="form-control" id="count">
+        </div>
+        <div class="mb-3">
+            <label for="cost" class="form-label">Cost</label>
+            <input type="text" name="cost" class="form-control" id="cost">
+        </div>
+        <button type="submit" class="btn btn-success">Send</button>
+    </form>
+</section>
+{%endblock%}

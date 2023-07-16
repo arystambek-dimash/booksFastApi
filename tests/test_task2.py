@@ -14,7 +14,7 @@ def test_post_login_invalid():
 
 
 def test_post_login_valid():
-    data = {"email": "test@test.com", "password": "123"}
+    data = {"email": "test@test.com", "password": "12345678"}
     response = requests.post(
         "http://localhost:8000/login", data=data, allow_redirects=False
     )

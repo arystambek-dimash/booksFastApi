@@ -14,5 +14,4 @@ class PurchasesRepository:
         self.purchases = []
 
     # необходимые методы сюда
-
     # конец решения
