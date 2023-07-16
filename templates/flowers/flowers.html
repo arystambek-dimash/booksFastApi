@@ -26,8 +26,9 @@
                         <input type="submit" name="delete" class="form-control btn btn-danger" value="Delete">
                     </div>
                 </form>
-                <form action="add/{{flower.id}}/to/cart" method="post">
+                <form action="/cart/items" method="post">
                     <div class="mb-3">
+                        <input type="hidden" name="flower_id" class="form-control btn btn-success" value="{{flower.id}}">
                         <input type="submit" name="add_cart" class="form-control btn btn-success" value="Add cart">
                     </div>
                 </form>

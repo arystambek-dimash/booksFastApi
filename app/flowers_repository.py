@@ -33,4 +33,13 @@ class FlowersRepository:
             if f.id == flower_id:
                 return self.flowers[i]
         return None
+    def get_many(self,flower_ids):
+        if flower_ids:
+            flowers = []
+            for i,f in enumerate(self.flowers):
+                if str(f.id) in flower_ids:
+                    flowers.append(f)
+            return flowers
+        else:
+            return None
     # конец решения

@@ -156,8 +156,10 @@ def delete_flower(request: Request, flower_id: int):
     flowers_repository.delete_flower(flower_id)
     return RedirectResponse("/flowers", status_code=303)
 
+
 @app.post('/add/{flower_id}/to/cart')
-def add_to_cart(flower_id: int,token: str = Cookie(default=encode_jwt(current_user_id)), cart: str = Cookie(default="[]")):
+def add_to_cart(flower_id: int, token: str = Cookie(default=encode_jwt(current_user_id)),
+                cart: str = Cookie(default="[]")):
     flower = flowers_repository.get_one(flower_id)
 
     if not flower:
@@ -177,15 +179,34 @@ def add_to_cart(flower_id: int,token: str = Cookie(default=encode_jwt(current_us
     else:
         return RedirectResponse("/login", status_code=303)
 
+
+@app.post('/cart/items')
+def add_to_cart(flower_id: int = Form(), token: str = Cookie(default=encode_jwt(current_user_id)),
+                cart: str = Cookie(default="[]")):
+    flower = flowers_repository.get_one(flower_id)
+    cart_json = json.loads(cart)
+    cart_json.append(flower.id)
+    new_cart = json.dumps(cart_json)
+
+    response = RedirectResponse("/cart/items",status_code=303)
+    response.set_cookie(token, new_cart)
+    return response
+
+
 @app.get('/cart/items')
-def get_cart_items(request:Request,token: str = Cookie(default=encode_jwt(current_user_id)), cart: str = Cookie(default="[]")):
+def get_cart_items(request: Request, token: str = Cookie(default=encode_jwt(current_user_id))):
     if users_repository.get_user_by_id(decode_jwt(token)):
-        flowers = flowers_repository.get_many(cart)
+        flowers_id = request.cookies.get(token)
         total_cost = 0
-        for i in flowers:
-            total_cost += i.cost
-        return templates.TemplateResponse("flowers/cart.html",
-                                          {"request":request,"flowers": flowers, "total_cost": total_cost})
+        flowers = flowers_repository.get_many(flowers_id)
+        if flowers:
+            for i in flowers:
+                total_cost += i.cost
+            return templates.TemplateResponse("flowers/cart.html",
+                                              {"request": request, "flowers": flowers, "total_cost": total_cost})
+        else:
+            return templates.TemplateResponse("flowers/cart.html",
+                                              {"request": request})
 
     else:
         return RedirectResponse("/login", status_code=303)
