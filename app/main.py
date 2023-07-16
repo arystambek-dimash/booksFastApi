@@ -210,3 +210,5 @@ def get_cart_items(request: Request, token: str = Cookie(default=encode_jwt(curr
 
     else:
         return RedirectResponse("/login", status_code=303)
+
+

@@ -59,7 +59,7 @@ class UsersRepository:
         self.carts.append({"user_id":user_id,"cart":cart})
 
     def get_all_cart_by_id(self, user_id):
-        for i, u in enumerate(self.carts):
-            if u["user_id"] == user_id:
-                return u
+        for i, с in enumerate(self.carts):
+            if с["user_id"] == user_id:
+                return с
 

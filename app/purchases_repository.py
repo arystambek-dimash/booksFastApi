@@ -13,5 +13,14 @@ class PurchasesRepository:
     def __init__(self):
         self.purchases = []
 
-    # необходимые методы сюда
-    # конец решения
+    def get_all_purchased(self, user_id):
+        purchases_by_user = []
+        for purchase in self.purchases:
+            if user_id == purchase.user_id:
+                purchases_by_user.append(purchase)
+        return purchases_by_user
+
+    def save_purchased(self,purchased):
+        self.purchases.append(purchased)
+
+
