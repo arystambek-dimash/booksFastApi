@@ -23,7 +23,7 @@
             <td style="text-align: center"><a href="" style="text-decoration: none;color: black">{{ flower.count }}</a>
             </td>
             <td style="display:flex;justify-content: space-around">
-                <form action="cart/delete/{{flower.id}}/" method="post">
+                <form action="/items/delete/{{ flower.id }}" method="post">
                     <div class="mb-3">
                         <input type="submit" name="delete" class="form-control btn btn-danger" value="Delete">
                     </div>

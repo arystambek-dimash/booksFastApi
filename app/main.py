@@ -166,7 +166,6 @@ def add_to_cart(flower_id: int, token: str = Cookie(default=encode_jwt(current_u
         error_message = "Not flower with such name"
         return templates.TemplateResponse("flowers/flowers.html", {"error_message": error_message})
     if current_user_id:
-
         cart_json = json.loads(cart)
         cart_json.append(flower.id)
         new_cart = json.dumps(cart_json)
@@ -188,7 +187,7 @@ def add_to_cart(flower_id: int = Form(), token: str = Cookie(default=encode_jwt(
     cart_json.append(flower.id)
     new_cart = json.dumps(cart_json)
 
-    response = RedirectResponse("/cart/items",status_code=303)
+    response = RedirectResponse("/cart/items", status_code=303)
     response.set_cookie(token, new_cart)
     return response
 
@@ -212,3 +211,18 @@ def get_cart_items(request: Request, token: str = Cookie(default=encode_jwt(curr
         return RedirectResponse("/login", status_code=303)
 
 
+@app.get("/items/delete/{flower_id}/")
+def delete_cart_items(request: Request):
+    return templates.TemplateResponse("flowers/cart.html", {"request": request})
+
+
+@app.post("/items/delete/{flower_id}/")
+def delete_cart_items(request: Request, flower_id: int,token: str = Cookie(default=encode_jwt(current_user_id)),cart: str = Cookie(default="[]")):
+    flowers = request.cookies.get(token)
+    if flowers:
+        flowers = json.loads(flowers)
+        for i, f in enumerate(flowers):
+            if flower_id == f:
+                del flowers[i]
+                break
+    return RedirectResponse("/cart/items",status_code=303)
